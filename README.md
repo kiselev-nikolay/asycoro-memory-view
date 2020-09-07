@@ -2,7 +2,7 @@
 
 __Это учебные матрериалы из курса ... ссылка скоро будет__
 
-_У описанного ниже алгоритма есть код &mdash; [main.py](https://github.com/machineandme/asycoro-memory-view/blob/master/main.py)_
+_У описанного ниже алгоритма есть код &mdash; [list_demo.py](https://github.com/machineandme/asycoro-memory-view/blob/master/list_demo.py)_
 
 1. Мы создаем 2 массива типа `list` из python.
 

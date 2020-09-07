@@ -2,16 +2,17 @@ import math
 from statistics import mean
 from sys import getsizeof
 from uuid import uuid4
+import colors
 
 import PIL.Image
 
-MOVES = 13
+MOVES = 2
 
 first_array = []
 second_array = []
 
 # trick to create a memory ballast. After that memory can be written in a clear for computer science way.
-clapper = [uuid4() for _ in range(MOVES**2)]
+clapper = [uuid4() for _ in range((max(MOVES, 90))**2)]
 
 for _ in range(MOVES):
     first_array.append(uuid4())
@@ -41,12 +42,14 @@ for index, object_id in enumerate(first_ids):
 for index, object_id in enumerate(second_ids):
     second_ids[index] = (object_id - zero)
 
-width = math.ceil(math.sqrt(shift))
-height = width
 
-image: PIL.Image.Image = PIL.Image.new('HSV', (width, height))
+side = math.sqrt(shift)
+width = math.ceil(side * 1.4)
+height = math.ceil(side / 1.4)
 
-def draw(elements, ids, hue):
+image: PIL.Image.Image = PIL.Image.new('RGB', (width, height))
+
+def draw(elements, ids, color):
     for element, element_id in zip(elements, ids):
         for i in range(getsizeof(element)):
             x = (element_id + i) % width
@@ -54,11 +57,11 @@ def draw(elements, ids, hue):
             p = image.getpixel((x, y))
             if p != (0, 0, 0):
                 raise ValueError
-            image.putpixel((x, y), (hue, 213, 255))
+            image.putpixel((x, y), color)
 
-draw(first_array[:MOVES], first_ids[:MOVES], 0)
-draw(first_array[MOVES:], first_ids[MOVES:], 10)
-draw(second_array, second_ids, 90)
+draw(first_array[:MOVES], first_ids[:MOVES], colors.MAXIMUM_RED)
+draw(first_array[MOVES:], first_ids[MOVES:], colors.MAXIMUM_RED)
+draw(second_array, second_ids, colors.CARROT_ORANGE)
 
-image.show()
-image.convert("RGB").resize((480, 480), PIL.Image.NEAREST).save(f"demo{MOVES}.png")
+# image.show()
+image.resize((math.ceil(480 * 1.4), math.ceil(480 / 1.4)), PIL.Image.NEAREST).save(f"demo{MOVES}.png")
